@@ -25,6 +25,11 @@ FORMATS = {
 
 DEFAULT_FORMAT = "jpg"
 
+def decor_print(max_length, s):
+    x = int((max_length-len(s)) / 2)
+    y = max_length-len(s)-x-2
+    print("#"+ " "*x +s + " "*y + "#")
+
 def convert_size_to_k(size):
     if size >= 1000:
         size //= 1000
@@ -89,32 +94,31 @@ try:
 
     if verb == 1 and args.compare is False:
 
-        print("\n" + 60 * "#")
-        print("#")
-        print("#    Photo " + resized_photo_name + " has been saved...")
-        print("#")
-        print(60 * "#" + "\n")
+        print("\n")
+        decor_print(60, 57 * "#")
+        decor_print(60, "")
+        decor_print(60, "Photo " + resized_photo_name + " has been saved...")
+        decor_print(60, "")
+        decor_print(60, 57 * "#")
+        print("\n")
 
-    if args.compare:
+    if args.compare:    #TODO Center the 2 columns
 
         in_img = Image.open(original_photo_name, mode='r')
         out_img = Image.open(resized_photo_name, mode='r')
 
         print("\n" + "#" * 60)
-        print("#")
-        print("#    Name: " + in_img.filename + " | " + out_img.filename)
-        print("#")
-        print("#    -----------  infos   -----------------")
-        print("#")
-        print("#    size:        " + str(in_img.size)+ " | " + str(out_img.size))
-        print("#    dpi:         " + str(in_img.info["dpi"])+ " | " + str(out_img.info["dpi"]))
-        print("#    mode:        " + str(in_img.mode)+ " | " + str(out_img.mode))
-        print("#    format:      " + str(in_img.format)+ " | " + str(out_img.format))
-        print("#")
+        decor_print(60, "Compare")
+        decor_print(60, "")
+        print("#    Name: " + in_img.filename + " |    " + out_img.filename)
+        decor_print(60, "")
+        decor_print(60, "")
+        print("#    size:        " + str(in_img.size)+ " |    " + str(out_img.size))
+        print("#    dpi:         " + str(in_img.info["dpi"])+ "    | " + str(out_img.info["dpi"]))
+        print("#    mode:        " + str(in_img.mode)+ " |    " + str(out_img.mode))
+        print("#    format:      " + str(in_img.format)+ " |    " + str(out_img.format))
+        decor_print(60, "")
         print("#" * 60 + "\n")
-
-        in_img.close()
-        out_img.close()
 
 except IOError:
     print("Cannot resize for '%s'" % original_photo_name)
