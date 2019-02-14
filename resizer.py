@@ -27,8 +27,8 @@ DEFAULT_FORMAT = "jpg"
 
 def decor_print(max_length, s):
     x = int((max_length-len(s)) / 2)
-    y = max_length-len(s)-x-2
-    print("#"+ " "*x +s + " "*y + "#")
+    y = max_length - len(s) - x - 2
+    print("#" + " " * x + s + " " * y + "#")
 
 def convert_size_to_k(size):
     if size >= 1000:
