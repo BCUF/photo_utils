@@ -68,7 +68,7 @@ def main():
     if args.output == "":
         output_name = args.input
     else:
-        output_name = args.output
+        output_name = str(args.output)
 
     verb = args.verbosity
 
