@@ -45,8 +45,9 @@ def main():
         help='The input file name (and path if not current folder)', required=True)
     required.add_argument('-s','--size', type=int,
         help='The size of the longest side of the image', required=True)
-    required.add_argument('-o','--output', type=str,
-        help='The output file name (and path if not current folder)', required=True)
+
+    optional.add_argument('-o','--output', type=str,
+        help='The output file name (and path if not current folder)', default="")
 
     optional.add_argument('-v','--verbosity', type=int,
         help='Set to 1 to print, set 0 to not print anything', default=1)
@@ -63,7 +64,12 @@ def main():
 
     original_photo_name = args.input
     max_size = args.size
-    output_name = args.output
+
+    if args.output == "":
+        output_name = args.input
+    else:
+        output_name = args.output
+
     verb = args.verbosity
 
     img_format = args.format
