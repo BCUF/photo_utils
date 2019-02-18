@@ -5,7 +5,7 @@
 # Author: Nicolas Stulz
 ###
 
-# example python resizer.py -i img/JATH_52577.tif -s 1100 -o img/ -d
+#Example: python resizer.py -i JATH_52577.tif -s 2000 -o c:\tmp\img\xxx.jpg
 
 import os, sys
 from pathlib import Path
@@ -30,11 +30,6 @@ def decor_print(max_length, s):
     y = max_length - len(s) - x - 2
     print("#" + " " * x + s + " " * y + "#")
 
-def convert_size_to_k(size):
-    if size >= 1000:
-        size //= 1000
-        return "_".__add__(str(size)).__add__("k")
-
 def main():
 
     parser = argparse.ArgumentParser(description='This program allows you to resize a picture')
@@ -52,8 +47,6 @@ def main():
         help='Set to 1 to print, set 0 to not print anything', default=1)
     optional.add_argument('-f','--format', type=str,
         help='Set the file format [jpg|png] default is jpg', default=DEFAULT_FORMAT)
-    optional.add_argument('-d','--dimension', action="store_true", default=False,
-        help='Just add -d to automatically add the longest side dimension to the resized image. Example for a x.jpg (2000x1500) -> x_2k.jpg')
     optional.add_argument('-c','--compare', action="store_true", default=False,
         help='Just add -c to compare the input and output file')
 
@@ -62,28 +55,19 @@ def main():
     args = parser.parse_args()
 
     original_photo_name = args.input
+
     max_size = args.size
 
-    # if args.output == "":
-    #     output_name = args.input
-    # else:
-    output_path = str(args.output)
-
-    output_name = str(args.input)
+    output_name = args.output
 
     verb = args.verbosity
 
     img_format = args.format
 
-    size_info = ""
+    head, tail = os.path.split(output_name)
 
-    if args.dimension:
-        size_info = convert_size_to_k(max_size)
-
-    new_filename = os.path.splitext(output_name)[0]
-
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    if not os.path.exists(head):
+        os.makedirs(head, exist_ok = True)
 
     try:
 
@@ -93,7 +77,7 @@ def main():
 
         img.thumbnail((max_size, max_size), Image.ANTIALIAS)
 
-        resized_photo_name = output_path.__add__(new_filename).__add__(size_info).__add__(FORMATS[img_format]["ext"])
+        resized_photo_name = output_name
 
         if original_photo_name == resized_photo_name:
             print("Input and output files are same...")
@@ -101,6 +85,7 @@ def main():
             sys.exit(0)
         else:
             img.save(resized_photo_name, FORMATS[img_format]["mime"], quality=100, dpi=dpi)
+            print("NEW PHOTO: "+resized_photo_name)
 
         img.close()
 
