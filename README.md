@@ -7,7 +7,7 @@ A virtualdev with Python 3 (virtualenv virtualenv) is required
 
 Clone the project
 
-Run python resizer.py -i <input_img> -s <size> -o <output_img>
+Run python resizer.py -i <input_img> -s <longer-side> -o <output_img>
 
 Run python resizer.py -h for help
 
