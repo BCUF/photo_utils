@@ -1,0 +1,1 @@
+FOR /R %%a IN (*.tif) DO python resizer.py -s 2000 -i "%%~a" -o "./img/" -d

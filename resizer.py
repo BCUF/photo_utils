@@ -5,7 +5,7 @@
 # Author: Nicolas Stulz
 ###
 
-# example python resizer.py -i img/JATH_52577.tif -s 1100 -o img/xxx.jpg
+# example python resizer.py -i img/JATH_52577.tif -s 1100 -o img/ -d
 
 import os, sys
 from pathlib import Path
@@ -45,9 +45,8 @@ def main():
         help='The input file name (and path if not current folder)', required=True)
     required.add_argument('-s','--size', type=int,
         help='The size of the longest side of the image', required=True)
-
-    optional.add_argument('-o','--output', type=str,
-        help='The output file name (and path if not current folder)', default="")
+    required.add_argument('-o','--output', type=str,
+        help='The output Directory', required=True)
 
     optional.add_argument('-v','--verbosity', type=int,
         help='Set to 1 to print, set 0 to not print anything', default=1)
@@ -65,10 +64,12 @@ def main():
     original_photo_name = args.input
     max_size = args.size
 
-    if args.output == "":
-        output_name = args.input
-    else:
-        output_name = str(args.output)
+    # if args.output == "":
+    #     output_name = args.input
+    # else:
+    output_path = str(args.output)
+
+    output_name = str(args.input)
 
     verb = args.verbosity
 
@@ -81,6 +82,9 @@ def main():
 
     new_filename = os.path.splitext(output_name)[0]
 
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
     try:
 
         img = Image.open(original_photo_name, mode='r')
@@ -89,7 +93,7 @@ def main():
 
         img.thumbnail((max_size, max_size), Image.ANTIALIAS)
 
-        resized_photo_name = new_filename.__add__(size_info).__add__(FORMATS[img_format]["ext"])
+        resized_photo_name = output_path.__add__(new_filename).__add__(size_info).__add__(FORMATS[img_format]["ext"])
 
         if original_photo_name == resized_photo_name:
             print("Input and output files are same...")
