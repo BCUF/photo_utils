@@ -66,8 +66,14 @@ def main():
 
     try:
 
-        img = Image.open(original_photo_name, mode='r')
+       
 
+        img = Image.open(original_photo_name)
+
+        if(img.mode == 'I;16'):
+            print(img.mode)
+            img = img.point(lambda i:i*(1./256)).convert('L')
+            
         dpi = img.info["dpi"]
 
         img.thumbnail((max_size, max_size), Image.ANTIALIAS)
